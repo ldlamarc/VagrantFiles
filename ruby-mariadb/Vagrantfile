@@ -1,0 +1,34 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/trusty64"
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 8192
+    v.cpus = 2
+  end
+
+  config.vm.provision :shell, path: 'vagrant_scripts/init.sh', keep_color: true
+  config.vm.provision :shell, path: 'vagrant_scripts/dev_tools.sh', keep_color: true
+  config.vm.provision :shell, path: 'vagrant_scripts/rvm.sh', keep_color: true, privileged: false
+  config.vm.provision :shell, path: 'vagrant_scripts/ruby.sh', keep_color: true, privileged: false
+  config.vm.provision :shell, path: 'vagrant_scripts/non_gemfile_gems.sh', keep_color: true, privileged: false
+  config.vm.provision :shell, path: 'vagrant_scripts/maria_db.sh', keep_color: true
+
+  #Localhost
+  config.vm.network :forwarded_port, host: 3000, guest: 3000
+
+  # Guard listen
+  config.vm.network :forwarded_port, host: 4000, guest: 4000
+
+  config.vm.synced_folder '.', '/vagrant', type: 'nfs'
+  config.vm.network 'private_network', ip: '192.168.50.5'
+
+  # Set the timezone to the host timezone
+  require 'time'
+  timezone = 'Europe/Brussels'
+  config.vm.provision :shell, :inline => "if [ $(grep -c UTC /etc/timezone) -gt 0 ]; then echo \"#{timezone}\" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata; fi"
+end
