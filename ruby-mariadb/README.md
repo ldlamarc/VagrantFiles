@@ -49,8 +49,6 @@ But if you switch to the project, RVM uses ruby 2.2.1 (it looks at the gemfile)
 
 Do not use 'sudo gem install ...'! https://rvm.io/rubies/rubygems
 
-You might still be required to run non_gemfile_gems.sh in your Ubuntu image if bundler/listen isn't correctly installed.
-
 ```console
 sh non_gemfile_gems.sh
 ```
