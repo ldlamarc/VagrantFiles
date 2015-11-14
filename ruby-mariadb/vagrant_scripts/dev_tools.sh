@@ -13,6 +13,8 @@ install 'PwGen' pwgen
 
 install Git git
 
+install NodeJS nodejs
+
 #Can be used to visualize DB schema
 install 'GraphViz' graphviz
 
