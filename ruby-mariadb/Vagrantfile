@@ -17,6 +17,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :shell, path: "vagrant_scripts/rvm.sh", args: "stable", privileged: false
   config.vm.provision :shell, path: "vagrant_scripts/ruby.sh", args: "2.2.1 bundler listen thor celluloid-io", privileged: false
   config.vm.provision :shell, path: 'vagrant_scripts/maria_db.sh', keep_color: true
+  config.vm.provision :shell, path: 'vagrant_scripts/maria_db_mysql2_lib.sh', keep_color: true
 
   #Localhost
   config.vm.network :forwarded_port, host: 3000, guest: 3000
