@@ -13,9 +13,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :shell, path: 'vagrant_scripts/init.sh', keep_color: true
   config.vm.provision :shell, path: 'vagrant_scripts/dev_tools.sh', keep_color: true
-  config.vm.provision :shell, path: 'vagrant_scripts/rvm.sh', keep_color: true, privileged: false
-  config.vm.provision :shell, path: 'vagrant_scripts/ruby.sh', keep_color: true, privileged: false
-  config.vm.provision :shell, path: 'vagrant_scripts/non_gemfile_gems.sh', keep_color: true, privileged: false
+  #tested with rvm-1.26.11
+  config.vm.provision :shell, path: "vagrant_scripts/rvm.sh", args: "stable", privileged: false
+  config.vm.provision :shell, path: "vagrant_scripts/ruby.sh", args: "2.2.1 bundler listen thor celluloid-io", privileged: false
   config.vm.provision :shell, path: 'vagrant_scripts/maria_db.sh', keep_color: true
 
   #Localhost
