@@ -1,0 +1,29 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/trusty64"
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 8192
+    v.cpus = 2
+  end
+
+  config.vm.provision :shell, path: 'bash_scripts/init.sh', keep_color: true
+  config.vm.provision :shell, path: 'bash_scripts/dev_tools.sh', keep_color: true
+  config.vm.provision :shell, path: 'bash_scripts/elixir.sh', keep_color: true
+  config.vm.provision :shell, path: 'bash_scripts/phoenix.sh', keep_color: true, privileged: false
+  config.vm.provision :shell, path: 'bash_scripts/postgresql.sh', keep_color: true
+
+  # Phoenix default port
+  config.vm.network :forwarded_port, host: 4000, guest: 4000
+
+  # PostgreSQL default port
+  config.vm.network :forwarded_port, host: 5432, guest: 5432
+
+  config.vm.synced_folder '.', '/vagrant', type: 'nfs'
+  config.vm.network 'private_network', ip: '192.168.50.5'
+
+end
